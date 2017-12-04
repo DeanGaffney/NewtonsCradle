@@ -46,17 +46,12 @@ void ofApp::reset() {
 	ppContactGenerator.particles.clear();
 	anchorConstraints.clear();
 
-	float dist = eps * numOfBalls;
-	startPosX = -(numOfBalls + dist) / 2;
-	startPosX += BALL_RADIUS + (numOfBalls / 2);
-
-	float xPos = startPosX;
+	float xPos = 0.0f;
 
 	for (int k = 0; k < numOfBalls; ++k) {
 
 		//generate particles with rand position, and add to particles
 		Particle::Ref ball = Particle::Ref(new Particle());
-
 		ofVec3f anchorPos = ofVec3f(xPos, ANCHOR_HEIGHT, 0.0f);
 		ofVec3f ballPos;
 		if (k < ballsAtAngle) {
@@ -122,9 +117,8 @@ void ofApp::draw() {
     }
 
 
-	float xPos = startPosX;
-
-    // TODO - simulation specific stuff goes here
+	float xPos = 0.0f;
+	int num = 0;
 	for (auto p : particles) {
 		ofSetColor(255, 255, 255);
 		ofDrawLine(xPos, ANCHOR_HEIGHT, p->position.x, p->position.y);
