@@ -46,10 +46,10 @@ void ofApp::reset() {
 	ppContactGenerator.particles.clear();
 	anchorConstraints.clear();
 
-	float xPos = 0.0f;
+	startPosX = -(numOfBalls * (BALL_RADIUS * 2 + eps)) / 2;
+	float xPos = startPosX;
 
 	for (int k = 0; k < numOfBalls; ++k) {
-
 		//generate particles with rand position, and add to particles
 		Particle::Ref ball = Particle::Ref(new Particle());
 		ofVec3f anchorPos = ofVec3f(xPos, ANCHOR_HEIGHT, 0.0f);
@@ -61,11 +61,14 @@ void ofApp::reset() {
 			ballPos.z = 0.0f;
 		}
 		else {
+			ballPos.x = xPos;
 			ballPos.y -= ANCHOR_LENGTH;
 		}
 
 		ball->setPosition(ballPos).setRadius(BALL_RADIUS)
-								  .setBodyColor({ 255 , 0, 0 });
+			.setBodyColor({ 255 , 0, 0 })
+			.setVelocity(ofVec3f::zero())
+			.acceleration = ofVec3f::zero();
 
 		//set up anchors first
 		EqualityAnchoredConstraint::Ref constraint = EqualityAnchoredConstraint::Ref(new EqualityAnchoredConstraint(ball, anchorPos, ANCHOR_LENGTH));
@@ -117,8 +120,7 @@ void ofApp::draw() {
     }
 
 
-	float xPos = 0.0f;
-	int num = 0;
+	float xPos = startPosX;
 	for (auto p : particles) {
 		ofSetColor(255, 255, 255);
 		ofDrawLine(xPos, ANCHOR_HEIGHT, p->position.x, p->position.y);
@@ -127,7 +129,7 @@ void ofApp::draw() {
 		xPos += BALL_RADIUS * 2.0f + eps;
 	}
 
-	ofDrawLine(-(particles.size() * BALL_RADIUS), ANCHOR_HEIGHT, particles.size() * BALL_RADIUS, ANCHOR_HEIGHT);
+	ofDrawLine(-(particles.size() * (BALL_RADIUS * 2 + eps)), ANCHOR_HEIGHT, particles.size() * (BALL_RADIUS * 2 + eps), ANCHOR_HEIGHT);
 
     easyCam.end();
     ofPopStyle();

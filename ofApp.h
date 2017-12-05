@@ -65,7 +65,7 @@ public:
 	int ballsAtAngle{ 1 };
 	float eps{ 0.0 };
 	float ballAngle{ 45 };
-	float startPosX{ -RANGE / 2};
+	float startPosX{ 0.0 };
 
 	vector<YAMPE::P::EqualityAnchoredConstraint::Ref> anchorConstraints;
 
